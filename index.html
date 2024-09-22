@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Leedy Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            line-height: 1.6;
+            color: #555;
+        }
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .button-container a {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .button-container a:hover {
+            background-color: #0056b3;
+        }
+        .lang-buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .lang-button {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .lang-button:hover {
+            background-color: #0056b3;
+        }
+        .search-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .search-container input[type="text"] {
+            padding: 10px;
+            width: 70%;
+            max-width: 500px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .search-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Login/Register Buttons */
+        .auth-buttons {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        .auth-buttons button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            font-size: 14px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .auth-buttons button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Login and Register Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            border-radius: 8px;
+        }
+        .modal-content h2 {
+            text-align: center;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .modal-content button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .modal-content button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Logged-in User Section */
+        .logged-in-user {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: white;
+        }
+        .logged-in-user span {
+            margin-right: 20px;
+        }
+        .logged-in-user button {
+            padding: 10px 20px;
+            font-size: 14px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .logged-in-user button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-buttons" id="auth-buttons">
+        <button onclick="openModal('login')">Login</button>
+        <button onclick="openModal('register')">Register</button>
+    </div>
+
+    <div class="logged-in-user" id="logged-in-user">
+        <span id="logged-username"></span>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <h2>Login</h2>
+            <input type="text" id="login-username" placeholder="Username">
+            <input type="password" id="login-password" placeholder="Password">
+            <input type="text" id="login-code" placeholder="Enter Code">
+            <button onclick="login()">Login</button>
+        </div>
+    </div>
+
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <h2>Register</h2>
+            <input type="text" id="register-username" placeholder="Username">
+            <input type="password" id="register-password" placeholder="Password">
+            <input type="text" id="register-code" placeholder="Enter Code">
+            <button onclick="register()">Register</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 id="page-title">Welcome to Leedy!</h1>
+        <p id="intro-text">Leedy Search anything! We are not partnered with Google or anything!</p>
+
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search or enter website URL...">
+            <button onclick="performSearch()">Search</button>
+        </div>
+
+        <div class="lang-buttons">
+            <button class="lang-button" onclick="switchLanguage('en')">English</button>
+            <button class="lang-button" onclick="switchLanguage('de')">Deutsch</button>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                title: "Welcome to Leedy!",
+                intro: "Leedy Search anything! We are not partnered with Google or anything!",
+            },
+            de: {
+                title: "Willkommen auf Leedy!",
+                intro: "Leedy suche alles! Wir sind nicht verpartnert mit Google etc. !",
+            }
+        };
+
+        function switchLanguage(lang) {
+            document.getElementById('page-title').textContent = translations[lang].title;
+            document.getElementById('intro-text').textContent = translations[lang].intro;
+        }
+
+        function performSearch() {
+            // Überprüfen, ob der Benutzer eingeloggt ist
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                alert('Please login or register before using the search.');
+                openModal('login'); // Wenn nicht eingeloggt, zur Login-Modal weiterleiten
+                return;
+            }
+
+            const query = document.getElementById('search-input').value;
+            const urlPattern = /^[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+$/;
+            if (urlPattern.test(query)) {
+                window.location.href = 'https://' + query;
+            } else {
+                window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+            }
+        }
+
+        function openModal(type) {
+            document.getElementById(type + '-modal').style.display = 'block';
+        }
+
+        function closeModal(type) {
+            document.getElementById(type + '-modal').style.display = 'none';
+        }
+
+        // Benutzerverwaltung mit localStorage und Admin-Code
+        const ADMIN_CODE = "leedy-admin";  // Code, den Benutzer eingeben müssen
+
+        function register() {
+            const username = document.getElementById('register-username').value;
+            const password = document.getElementById('register-password').value;
+            const code = document.getElementById('register-code').value;
+
+            if (username && password && code === ADMIN_CODE) {
+                const users = JSON.parse(localStorage.getItem('users')) || {};
+                users[username] = password;
+                localStorage.setItem('users', JSON.stringify(users));
+                alert('Registration successful!');
+                closeModal('register');
+            } else {
+                alert('Please enter a valid username, password, and code.');
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            const code = document.getElementById('login-code').value;
+
+            const users = JSON.parse(localStorage.getItem('users')) || {};
+
+            if (users[username] && users[username] === password && code === ADMIN_CODE) {
+                alert('Login successful!');
+                localStorage.setItem('loggedInUser', username);
+                closeModal('login');
+                showLoggedInUser(username);
+            } else {
+                alert('Incorrect username, password, or code.');
+            }
+        }
+
+        function showLoggedInUser(username) {
+            document.getElementById('auth-buttons').style.display = 'none';
+            document.getElementById('logged-username').textContent = username;
+            document.getElementById('logged-in-user').style.display = 'block';
+        }
+
+        function logout() {
+            localStorage.removeItem('loggedInUser');
+            document.getElementById('logged-in-user').style.display = 'none';
+            document.getElementById('auth-buttons').style.display = 'block';
+        }
+
+        // Beim Laden der Seite prüfen, ob ein Benutzer eingeloggt ist
+        window.onload = function() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                showLoggedInUser(loggedInUser);
+            }
+        }
+
+        window.onclick = function(event) {
+            const loginModal = document.getElementById('login-modal');
+            const registerModal = document.getElementById('register-modal');
+            if (event.target === loginModal) {
+                closeModal('login');
+            } else if (event.target === registerModal) {
+                closeModal('register');
+            }
+        }
+    </script>
+</body>
+</html>
